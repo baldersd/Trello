@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="" ng-app="BuildWithTrello">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Trello API Test</title>
+<script src="http://code.jquery.com/jquery-1.7.1.js" async="async"></script>
+<!--API Key-->
+<script src="https://api.trello.com/1/client.js?key=xxxxxxxxxxxxxxxxxxxxxxxxxxxx" async="async"></script>
+<script>
+// Authenticate and get token	
+function AuthenticateTrello() {
+	Trello.authorize({
+	  interactive: true,
+	  //persist: "true",
+	  type: 'popup',
+	  name: 'Getting Started Application',
+	  scope: {read: 'true',	write: 'false' },
+	  expiration: 'never',	  
+      success: function() { onAuthorizeSuccessful(); },
+      error: function() { onFailedAuthorization(); }
+	});	
+}
+function onAuthorizeSuccessful() {
+	var token = Trello.token();
+	//window.location.replace("/auth?token=");
+	//today = new Date("December 25, 2015 12:00:00");
+	//var thisUrl = encodeURI("google.com/");
+	console.log("Authorization Successful: Token: " + token);
+}
+
+function onFailedAuthorization() {
+	console.log("Authorization failed.");
+}
+
+function GetTrelloBoards() {
+	// vars
+	var success = function(successMsg) {
+	  //asyncOutput(successMsg);
+	  console.log(successMsg);
+	};
+	var error = function(errorMsg) {
+	  //asyncOutput(errorMsg);
+	  console.log(errorMsg);
+	};
+	// Get all of the information about the boards you have access to
+	window.alert("Running GET Board...");
+	Trello.get("/boards/568d1709c01789eb33438746", success, error);
+}
+function GetTrelloLists() {
+	// vars
+	var success = function(successMsg) {
+	  //asyncOutput(successMsg);
+	  console.log(successMsg);
+	};
+	var error = function(errorMsg) {
+	  //asyncOutput(errorMsg);
+	  console.log(errorMsg);
+	};
+	// Get all of the information about the boards you have access to
+	window.alert("Running GET Lists...");
+	Trello.get("/boards/568d1709c01789eb33438746/lists", success, error);
+}
+function GetTrelloList(mylist) {
+	// vars
+	var success = function(successMsg) {
+	  //asyncOutput(successMsg);
+	  console.log(successMsg);
+	};
+	var error = function(errorMsg) {
+	  //asyncOutput(errorMsg);
+	  console.log(errorMsg);
+	};
+	// Get all of the information about the boards you have access to
+	window.alert(mylist)
+	window.alert("Running GET List called 'Daniel Baldree (list id: '" + mylist + "')'");
+	Trello.get("/lists/" + mylist, success, error);
+	//for fields use /lists/4eea4ffc91e31d174600004a?fields=name&cards=open&card_fields=name&key=[application_key]&token=[optional_auth_token]
+}
+function GetTrelloCards() {
+	// vars
+	var success = function(successMsg) {
+	  //asyncOutput(successMsg);
+	  console.log(successMsg);
+	};
+	var error = function(errorMsg) {
+	  //asyncOutput(errorMsg);
+	  console.log(errorMsg);
+	};
+	// Get all of the information about the boards you have access to
+	window.alert("Running GET Cards...");
+	Trello.get("/boards/568d1709c01789eb33438746/cards", success, error);   
+	//for fields use /boards/id/cards?fields=name,idList,url&key=[application_key]&token=[optional_auth_token]
+}
+function GetTrelloCard(mylist) {
+	// vars
+	var success = function(successMsg) {
+	  //asyncOutput(successMsg);
+	  console.log(successMsg);
+	};
+	var error = function(errorMsg) {
+	  //asyncOutput(errorMsg);
+	  console.log(errorMsg);
+	};
+	// Get all of the information about the boards you have access to
+	window.alert("Running GET Cards...");
+	Trello.get("/lists/" + mylist + "/cards/", success, error);
+	//for fields use /boards/id/cards?fields=name,idList,url&key=[application_key]&token=[optional_auth_token]
+}
+</script>
+
+<body bgcolor="#FFFFFF" color="#000000" onLoad="AuthenticateTrello()">
+
+<input type="button" value="Get Trello Board" onClick="GetTrelloBoards();"/>
+<br/><br/>
+<input type="button" value="Get Lists" onClick="GetTrelloLists();"/>
+<br/><br/>
+<input type="button" value="Get Specific List" onClick="GetTrelloList('582dbcb93fa7c7ef6a4efd32');"/>
+<br/><br/>
+<input type="button" value="Get Specific List - Get Specific Cards" onClick="GetTrelloCard('582dbcb93fa7c7ef6a4efd32');"/>
+<br/><br/>
+<input type="button" value="Get All Cards" onClick="GetTrelloCards();"/>
+<br/><br/>
+
+</body>
+</html>
